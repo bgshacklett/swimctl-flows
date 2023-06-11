@@ -1,0 +1,47 @@
+
+name: Apply Patch and Create PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      patchContent:
+        description: 'Git patch content'
+        required: true
+
+jobs:
+  apply-patch:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 # Fetch all history
+
+
+    - name: Create new branch
+      run: git checkout -b patch-branch-${{ github.run_number }}
+
+
+    - name: Apply patch
+      run: echo "${{ github.event.inputs.patchContent }}" | git apply
+
+
+    - name: Commit changes
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+
+        # is this needed?
+        git add .
+        git commit -m "Apply patch"
+
+
+    - name: Push branch
+      run: git push origin patch-branch-${{ github.run_number }}
+
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        title: Patch Applied
+        body: Patch has been applied and this PR is created for review.
