@@ -10,14 +10,10 @@
         "id": "be8c5fdd.8e",
         "type": "inject",
         "z": "7d408dab.571a94",
-        "name": "",
+        "name": "Turn Off",
         "props": [
             {
                 "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
             }
         ],
         "repeat": "",
@@ -25,13 +21,14 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 110,
+        "payload": "0",
+        "payloadType": "num",
+        "x": 120,
         "y": 160,
         "wires": [
             [
-                "7f5aeeb5.5029d"
+                "7f5aeeb5.5029d",
+                "e92ce0a0bc046b9a"
             ]
         ]
     },
@@ -39,14 +36,77 @@
         "id": "7f5aeeb5.5029d",
         "type": "debug",
         "z": "7d408dab.571a94",
-        "name": "",
+        "name": "Raw Input",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
-        "x": 290,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
         "y": 160,
+        "wires": []
+    },
+    {
+        "id": "7d6c8f71b659353d",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn On",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 120,
+        "y": 360,
+        "wires": [
+            [
+                "e92ce0a0bc046b9a",
+                "7f5aeeb5.5029d"
+            ]
+        ]
+    },
+    {
+        "id": "e92ce0a0bc046b9a",
+        "type": "8relind",
+        "z": "7d408dab.571a94",
+        "name": "Relay #1",
+        "stack": "0",
+        "relay": "1",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 480,
+        "y": 360,
+        "wires": [
+            [
+                "26f2b1b9d7a9065b"
+            ]
+        ]
+    },
+    {
+        "id": "26f2b1b9d7a9065b",
+        "type": "debug",
+        "z": "7d408dab.571a94",
+        "name": "Relay Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 360,
         "wires": []
     }
 ]
