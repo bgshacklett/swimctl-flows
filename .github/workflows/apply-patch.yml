@@ -40,14 +40,6 @@ jobs:
         git commit -m "Apply patch"
 
 
-    - name: Create new branch
-      run: git checkout -b patch-branch-${{ github.run_number }}
-
-
-    - name: Push branch
-      run: git push origin patch-branch-${{ github.run_number }}
-
-
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
       with:
