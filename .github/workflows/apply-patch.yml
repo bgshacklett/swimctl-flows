@@ -23,7 +23,6 @@ jobs:
 
 
     - name: Commit changes
-      if: ${{ success() }}
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
@@ -34,17 +33,14 @@ jobs:
 
 
     - name: Create new branch
-      if: ${{ success() }}
       run: git checkout -b patch-branch-${{ github.run_number }}
 
 
     - name: Push branch
-      if: ${{ success() }}
       run: git push origin patch-branch-${{ github.run_number }}
 
 
     - name: Create Pull Request
-      if: ${{ success() }}
       uses: peter-evans/create-pull-request@v3
       with:
         title: Patch Applied
