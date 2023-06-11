@@ -11,6 +11,9 @@ on:
 jobs:
   apply-patch:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -20,6 +23,11 @@ jobs:
 
     - name: Apply patch
       run: echo "${{ github.event.inputs.patchContent }}" | base64 -d | git apply --allow-empty
+
+
+    - name: Display diff
+      run: |
+        git diff
 
 
     - name: Commit changes
