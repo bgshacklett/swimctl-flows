@@ -108,5 +108,265 @@
         "x": 790,
         "y": 360,
         "wires": []
+    },
+    {
+        "id": "6201f447d96bb399",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn Off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 120,
+        "y": 460,
+        "wires": [
+            [
+                "fe99855e83d62985"
+            ]
+        ]
+    },
+    {
+        "id": "a3fa73caee298f57",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn On",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 120,
+        "y": 540,
+        "wires": [
+            [
+                "fe99855e83d62985"
+            ]
+        ]
+    },
+    {
+        "id": "fe99855e83d62985",
+        "type": "8relind",
+        "z": "7d408dab.571a94",
+        "name": "Relay #5",
+        "stack": "0",
+        "relay": "5",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 480,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5dc2ace25f1cb2e4",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn Off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 120,
+        "y": 600,
+        "wires": [
+            [
+                "94b37ee78431638b"
+            ]
+        ]
+    },
+    {
+        "id": "f24bf20b4fe96f98",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn On",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 120,
+        "y": 680,
+        "wires": [
+            [
+                "94b37ee78431638b"
+            ]
+        ]
+    },
+    {
+        "id": "94b37ee78431638b",
+        "type": "8relind",
+        "z": "7d408dab.571a94",
+        "name": "Relay #6",
+        "stack": "0",
+        "relay": "6",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 480,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4ae7f21dc491756c",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn Off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 120,
+        "y": 740,
+        "wires": [
+            [
+                "256e0b0dcbb9e666"
+            ]
+        ]
+    },
+    {
+        "id": "7ef0703513f309fa",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn On",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 120,
+        "y": 820,
+        "wires": [
+            [
+                "256e0b0dcbb9e666"
+            ]
+        ]
+    },
+    {
+        "id": "256e0b0dcbb9e666",
+        "type": "8relind",
+        "z": "7d408dab.571a94",
+        "name": "Relay #7",
+        "stack": "0",
+        "relay": "7",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 480,
+        "y": 760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b369d7f07f4fcae0",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn Off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 120,
+        "y": 880,
+        "wires": [
+            [
+                "dbf26215c9cb7af8"
+            ]
+        ]
+    },
+    {
+        "id": "feb8b9fe61d5cc46",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn On",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 120,
+        "y": 960,
+        "wires": [
+            [
+                "dbf26215c9cb7af8"
+            ]
+        ]
+    },
+    {
+        "id": "dbf26215c9cb7af8",
+        "type": "8relind",
+        "z": "7d408dab.571a94",
+        "name": "Relay #8",
+        "stack": "0",
+        "relay": "8",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 480,
+        "y": 900,
+        "wires": [
+            []
+        ]
     }
 ]
