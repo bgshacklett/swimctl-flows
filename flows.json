@@ -2,9 +2,130 @@
     {
         "id": "7d408dab.571a94",
         "type": "tab",
-        "label": "Simple Flow",
+        "label": "Debug Flow",
         "disabled": false,
         "info": ""
+    },
+    {
+        "id": "450fdcbd18ed57c6",
+        "type": "tab",
+        "label": "System Status",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "03928a46de37cade",
+        "type": "tab",
+        "label": "MQTT Discovery",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "399b0c9fe6882016",
+        "type": "tab",
+        "label": "Lights",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e84e9cb01a5483cb",
+        "type": "subflow",
+        "name": "System Health Check",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 120,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "35650b9e5321030d"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 400,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "35650b9e5321030d",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "3fbc57f2c63e2a25",
+        "type": "mqtt-broker",
+        "name": "Mosquitto (Home Assistant)",
+        "broker": "192.168.4.74",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "5",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "swimctl/system/status",
+        "birthQos": "2",
+        "birthPayload": "starting",
+        "birthMsg": {
+            "contentType": "text/plain"
+        },
+        "closeTopic": "swimctl/system/status",
+        "closeQos": "2",
+        "closePayload": "stopping",
+        "closeMsg": {
+            "contentType": "text/plain"
+        },
+        "willTopic": "swimctl/system/status",
+        "willQos": "0",
+        "willPayload": "offline",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "35650b9e5321030d",
+        "type": "delay",
+        "z": "e84e9cb01a5483cb",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 260,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9e9cccd484962553",
+        "type": "comment",
+        "z": "e84e9cb01a5483cb",
+        "name": "TODO: Replace delay with health check logic",
+        "info": "",
+        "x": 330,
+        "y": 80,
+        "wires": []
     },
     {
         "id": "be8c5fdd.8e",
@@ -67,7 +188,7 @@
         "payload": "1",
         "payloadType": "num",
         "x": 120,
-        "y": 360,
+        "y": 260,
         "wires": [
             [
                 "e92ce0a0bc046b9a",
@@ -79,13 +200,13 @@
         "id": "e92ce0a0bc046b9a",
         "type": "8relind",
         "z": "7d408dab.571a94",
-        "name": "Relay #1",
+        "name": "Relay #0:1",
         "stack": "0",
         "relay": "1",
         "payload": "payload",
         "payloadType": "msg",
-        "x": 480,
-        "y": 360,
+        "x": 490,
+        "y": 260,
         "wires": [
             [
                 "26f2b1b9d7a9065b"
@@ -106,7 +227,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 790,
-        "y": 360,
+        "y": 260,
         "wires": []
     },
     {
@@ -127,7 +248,7 @@
         "payload": "0",
         "payloadType": "num",
         "x": 120,
-        "y": 460,
+        "y": 900,
         "wires": [
             [
                 "fe99855e83d62985"
@@ -152,7 +273,7 @@
         "payload": "1",
         "payloadType": "num",
         "x": 120,
-        "y": 540,
+        "y": 980,
         "wires": [
             [
                 "fe99855e83d62985"
@@ -163,13 +284,13 @@
         "id": "fe99855e83d62985",
         "type": "8relind",
         "z": "7d408dab.571a94",
-        "name": "Relay #5",
+        "name": "Relay #0:5",
         "stack": "0",
         "relay": "5",
         "payload": "payload",
         "payloadType": "msg",
-        "x": 480,
-        "y": 480,
+        "x": 490,
+        "y": 920,
         "wires": [
             []
         ]
@@ -192,7 +313,7 @@
         "payload": "0",
         "payloadType": "num",
         "x": 120,
-        "y": 600,
+        "y": 1040,
         "wires": [
             [
                 "94b37ee78431638b"
@@ -217,7 +338,7 @@
         "payload": "1",
         "payloadType": "num",
         "x": 120,
-        "y": 680,
+        "y": 1120,
         "wires": [
             [
                 "94b37ee78431638b"
@@ -228,13 +349,13 @@
         "id": "94b37ee78431638b",
         "type": "8relind",
         "z": "7d408dab.571a94",
-        "name": "Relay #6",
+        "name": "Relay #0:6",
         "stack": "0",
         "relay": "6",
         "payload": "payload",
         "payloadType": "msg",
-        "x": 480,
-        "y": 620,
+        "x": 490,
+        "y": 1060,
         "wires": [
             []
         ]
@@ -257,7 +378,7 @@
         "payload": "0",
         "payloadType": "num",
         "x": 120,
-        "y": 740,
+        "y": 1180,
         "wires": [
             [
                 "256e0b0dcbb9e666"
@@ -282,7 +403,7 @@
         "payload": "1",
         "payloadType": "num",
         "x": 120,
-        "y": 820,
+        "y": 1260,
         "wires": [
             [
                 "256e0b0dcbb9e666"
@@ -293,13 +414,13 @@
         "id": "256e0b0dcbb9e666",
         "type": "8relind",
         "z": "7d408dab.571a94",
-        "name": "Relay #7",
+        "name": "Relay #0:7",
         "stack": "0",
         "relay": "7",
         "payload": "payload",
         "payloadType": "msg",
-        "x": 480,
-        "y": 760,
+        "x": 490,
+        "y": 1200,
         "wires": [
             []
         ]
@@ -322,7 +443,7 @@
         "payload": "0",
         "payloadType": "num",
         "x": 120,
-        "y": 880,
+        "y": 1320,
         "wires": [
             [
                 "dbf26215c9cb7af8"
@@ -347,7 +468,7 @@
         "payload": "1",
         "payloadType": "num",
         "x": 120,
-        "y": 960,
+        "y": 1400,
         "wires": [
             [
                 "dbf26215c9cb7af8"
@@ -358,15 +479,1334 @@
         "id": "dbf26215c9cb7af8",
         "type": "8relind",
         "z": "7d408dab.571a94",
-        "name": "Relay #8",
+        "name": "Relay #0:8",
         "stack": "0",
         "relay": "8",
         "payload": "payload",
         "payloadType": "msg",
-        "x": 480,
-        "y": 900,
+        "x": 490,
+        "y": 1340,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "e1d5a802617cc3ac",
+        "type": "8relind",
+        "z": "7d408dab.571a94",
+        "name": "Relay #1:1",
+        "stack": "1",
+        "relay": "1",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 490,
+        "y": 1640,
+        "wires": [
+            [
+                "742a92191a2d1343"
+            ]
+        ]
+    },
+    {
+        "id": "4ccf147b731862c7",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn Off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 120,
+        "y": 1620,
+        "wires": [
+            [
+                "e1d5a802617cc3ac"
+            ]
+        ]
+    },
+    {
+        "id": "9d8f95dcec278f3b",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn On",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 120,
+        "y": 1700,
+        "wires": [
+            [
+                "e1d5a802617cc3ac"
+            ]
+        ]
+    },
+    {
+        "id": "742a92191a2d1343",
+        "type": "debug",
+        "z": "7d408dab.571a94",
+        "name": "Relay Output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 750,
+        "y": 1640,
+        "wires": []
+    },
+    {
+        "id": "38fd0e6b3de1e65b",
+        "type": "8relind",
+        "z": "7d408dab.571a94",
+        "name": "Relay #1:7",
+        "stack": "1",
+        "relay": "7",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 490,
+        "y": 1820,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ebeec970531fa910",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn Off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 120,
+        "y": 1800,
+        "wires": [
+            [
+                "38fd0e6b3de1e65b"
+            ]
+        ]
+    },
+    {
+        "id": "a78b79afda4c8257",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn On",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 120,
+        "y": 1880,
+        "wires": [
+            [
+                "38fd0e6b3de1e65b"
+            ]
+        ]
+    },
+    {
+        "id": "8bd7684249a7efef",
+        "type": "8relind",
+        "z": "7d408dab.571a94",
+        "name": "Relay #1:8",
+        "stack": "1",
+        "relay": "8",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 490,
+        "y": 1980,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1f03eae74be7f79d",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn Off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 120,
+        "y": 1960,
+        "wires": [
+            [
+                "8bd7684249a7efef"
+            ]
+        ]
+    },
+    {
+        "id": "a97b2bfa08b2a768",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn On",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 120,
+        "y": 2040,
+        "wires": [
+            [
+                "8bd7684249a7efef"
+            ]
+        ]
+    },
+    {
+        "id": "50fe4aab473c6ced",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn Off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 120,
+        "y": 760,
+        "wires": [
+            [
+                "a8e0314521a07097"
+            ]
+        ]
+    },
+    {
+        "id": "5b5334f2ec9ae3f9",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn On",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 120,
+        "y": 840,
+        "wires": [
+            [
+                "a8e0314521a07097"
+            ]
+        ]
+    },
+    {
+        "id": "a8e0314521a07097",
+        "type": "8relind",
+        "z": "7d408dab.571a94",
+        "name": "Relay #0:4",
+        "stack": "0",
+        "relay": "4",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 490,
+        "y": 780,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1ebb2420292aa6ea",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn Off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 120,
+        "y": 600,
+        "wires": [
+            [
+                "2037130d1ce8c7b3"
+            ]
+        ]
+    },
+    {
+        "id": "33fd43336d25201f",
+        "type": "inject",
+        "z": "7d408dab.571a94",
+        "name": "Turn On",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 120,
+        "y": 680,
+        "wires": [
+            [
+                "2037130d1ce8c7b3"
+            ]
+        ]
+    },
+    {
+        "id": "2037130d1ce8c7b3",
+        "type": "8relind",
+        "z": "7d408dab.571a94",
+        "name": "Relay #0:3",
+        "stack": "0",
+        "relay": "3",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 490,
+        "y": 620,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8477439e60fc5c07",
+        "type": "link out",
+        "z": "450fdcbd18ed57c6",
+        "name": "Device Metadata",
+        "mode": "link",
+        "links": [
+            "central_metadata_input"
+        ],
+        "x": 495,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "7c17a9f90f41ad64",
+        "type": "inject",
+        "z": "450fdcbd18ed57c6",
+        "name": "On Startup",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 170,
+        "y": 140,
+        "wires": [
+            [
+                "2ccd6d4c0c25b11b",
+                "983d6a6269518181"
+            ]
+        ]
+    },
+    {
+        "id": "2ccd6d4c0c25b11b",
+        "type": "template",
+        "z": "450fdcbd18ed57c6",
+        "name": "Metadata",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "plain",
+        "template": "{\n  \"system\": {\n    \"unique_id\":\"system\",\n    \"platform\": \"sensor\",\n    \"device_class\":\"ENUM\",\n    \"native_value\": \"str\",\n    \"options\": [\n      \"online\",\n      \"offline\",\n      \"starting\",\n      \"stopping\"\n    ],\n    \"state_topic\": \"swimctl/system/status\"\n  }\n}",
+        "output": "json",
+        "x": 360,
+        "y": 140,
+        "wires": [
+            [
+                "8477439e60fc5c07"
+            ]
+        ]
+    },
+    {
+        "id": "d81339ab9952fb29",
+        "type": "link in",
+        "z": "450fdcbd18ed57c6",
+        "name": "Home Assistant Startup",
+        "links": [
+            "f217ef5ba3dfbcd4"
+        ],
+        "x": 225,
+        "y": 200,
+        "wires": [
+            [
+                "2ccd6d4c0c25b11b",
+                "983d6a6269518181"
+            ]
+        ]
+    },
+    {
+        "id": "107bda65011ca7a1",
+        "type": "mqtt out",
+        "z": "450fdcbd18ed57c6",
+        "name": "",
+        "topic": "swimctl/system/status",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3fbc57f2c63e2a25",
+        "x": 800,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "439418d3394a1efd",
+        "type": "template",
+        "z": "450fdcbd18ed57c6",
+        "name": "Startup Status",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "online",
+        "output": "str",
+        "x": 600,
+        "y": 200,
+        "wires": [
+            [
+                "107bda65011ca7a1"
+            ]
+        ]
+    },
+    {
+        "id": "983d6a6269518181",
+        "type": "subflow:e84e9cb01a5483cb",
+        "z": "450fdcbd18ed57c6",
+        "name": "",
+        "x": 400,
+        "y": 200,
+        "wires": [
+            [
+                "439418d3394a1efd"
+            ]
+        ]
+    },
+    {
+        "id": "ce2ae99a0f8d9c93",
+        "type": "mqtt out",
+        "z": "03928a46de37cade",
+        "name": "Home Assistant MQTT Discovery",
+        "topic": "homeassistant/device/swimctl-controller-01/config",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "application/json",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3fbc57f2c63e2a25",
+        "x": 800,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "central_metadata_input",
+        "type": "link in",
+        "z": "03928a46de37cade",
+        "name": "Metadata Input",
+        "links": [
+            "8477439e60fc5c07",
+            "2197c0ec581e0457",
+            "aa83f5464328da17",
+            "ecf9ce2c588f0c8f"
+        ],
+        "x": 115,
+        "y": 420,
+        "wires": [
+            [
+                "6f288140b05f4938",
+                "04cc717d69835bf1"
+            ]
+        ]
+    },
+    {
+        "id": "6f288140b05f4938",
+        "type": "join",
+        "z": "03928a46de37cade",
+        "name": "",
+        "mode": "custom",
+        "build": "merged",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": true,
+        "timeout": "1",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "{}",
+        "reduceInitType": "num",
+        "reduceFixup": "",
+        "x": 230,
+        "y": 420,
+        "wires": [
+            [
+                "be87fe8d4b0d9575",
+                "7c5264703d680638"
+            ]
+        ]
+    },
+    {
+        "id": "be87fe8d4b0d9575",
+        "type": "function",
+        "z": "03928a46de37cade",
+        "name": "Format Discovery Message",
+        "func": "return { \"payload\": {\n    \"dev\": {\n        \"ids\": \"swimctl-controller-01\",\n        \"name\": \"Pool Controller\",\n        \"mf\": \"Brian G. Shacklett\",\n        \"mdl\": \"01\",\n        \"sw\": \"0.1.0\",\n        \"sn\": \"00000001\",\n        \"hw\": \"0.1.0\"\n    },\n    \"o\": {\n        \"name\": \"swimctl\",\n        \"sw\": \"0.1.0\",\n        \"url\": \"https://github.com/bgshacklett/swimctl/issues\"\n    },\n    \"cmps\": msg.payload,\n\"state_topic\": \"swimctl/system/state\",\n    \"qos\": 2\n}};",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 420,
+        "wires": [
+            [
+                "f80e7ec7634438a6",
+                "ce2ae99a0f8d9c93"
+            ]
+        ]
+    },
+    {
+        "id": "7c5264703d680638",
+        "type": "debug",
+        "z": "03928a46de37cade",
+        "name": "Join",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 410,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "04cc717d69835bf1",
+        "type": "debug",
+        "z": "03928a46de37cade",
+        "name": "Link In",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 230,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "f80e7ec7634438a6",
+        "type": "debug",
+        "z": "03928a46de37cade",
+        "name": "Discovered Devices",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "bd894822a26f7320",
+        "type": "mqtt in",
+        "z": "03928a46de37cade",
+        "name": "Home Assistant Status",
+        "topic": "homeassistant/status",
+        "qos": "2",
+        "datatype": "utf8",
+        "broker": "3fbc57f2c63e2a25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 160,
+        "wires": [
+            [
+                "6e5f91f6b8c2d5b1",
+                "1884ca75e1d54add"
+            ]
+        ]
+    },
+    {
+        "id": "6e5f91f6b8c2d5b1",
+        "type": "debug",
+        "z": "03928a46de37cade",
+        "name": "Home Assistant Status",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "1884ca75e1d54add",
+        "type": "switch",
+        "z": "03928a46de37cade",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "online",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "offline",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 410,
+        "y": 160,
+        "wires": [
+            [
+                "f217ef5ba3dfbcd4"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "f217ef5ba3dfbcd4",
+        "type": "link out",
+        "z": "03928a46de37cade",
+        "name": "Home Assistant Startup",
+        "mode": "link",
+        "links": [
+            "d81339ab9952fb29",
+            "75323951ea67af27",
+            "206f4aff1ccea06b",
+            "660c1d21eeed30fd"
+        ],
+        "x": 525,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "86f876a33ad41dc3",
+        "type": "comment",
+        "z": "03928a46de37cade",
+        "name": "Trigger discovery on Home Assistant Startup",
+        "info": "",
+        "x": 270,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "dd0e20bb968a42e6",
+        "type": "comment",
+        "z": "03928a46de37cade",
+        "name": "Handle Discovery",
+        "info": "",
+        "x": 180,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "033c586aae9ed333",
+        "type": "inject",
+        "z": "399b0c9fe6882016",
+        "name": "Turn Off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 120,
+        "y": 260,
+        "wires": [
+            [
+                "8b4492bae25d3212"
+            ]
+        ]
+    },
+    {
+        "id": "e2d31460ab13413d",
+        "type": "inject",
+        "z": "399b0c9fe6882016",
+        "name": "Turn On",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 120,
+        "y": 320,
+        "wires": [
+            [
+                "8b4492bae25d3212"
+            ]
+        ]
+    },
+    {
+        "id": "8b4492bae25d3212",
+        "type": "8relind",
+        "z": "399b0c9fe6882016",
+        "name": "Spa Light",
+        "stack": "0",
+        "relay": "3",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 420,
+        "y": 280,
+        "wires": [
+            [
+                "75dd174036e567c1",
+                "4904d3adca9a9b66"
+            ]
+        ]
+    },
+    {
+        "id": "d214b9fc6e2cdac6",
+        "type": "inject",
+        "z": "399b0c9fe6882016",
+        "name": "Turn Off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 120,
+        "y": 760,
+        "wires": [
+            [
+                "0fc2784fd5a4b275"
+            ]
+        ]
+    },
+    {
+        "id": "630466d7dae7453b",
+        "type": "inject",
+        "z": "399b0c9fe6882016",
+        "name": "Turn On",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 120,
+        "y": 820,
+        "wires": [
+            [
+                "0fc2784fd5a4b275"
+            ]
+        ]
+    },
+    {
+        "id": "0fc2784fd5a4b275",
+        "type": "8relind",
+        "z": "399b0c9fe6882016",
+        "name": "Pool Light",
+        "stack": "0",
+        "relay": "4",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 420,
+        "y": 780,
+        "wires": [
+            [
+                "4eccc78a2dafca10",
+                "0bccf570f1768cb1"
+            ]
+        ]
+    },
+    {
+        "id": "2decf752b7f27aba",
+        "type": "mqtt in",
+        "z": "399b0c9fe6882016",
+        "name": "",
+        "topic": "swimctl/lights/spa/command",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "3fbc57f2c63e2a25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 200,
+        "wires": [
+            [
+                "8b4492bae25d3212"
+            ]
+        ]
+    },
+    {
+        "id": "75dd174036e567c1",
+        "type": "debug",
+        "z": "399b0c9fe6882016",
+        "name": "Spa Light Events",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "aa83f5464328da17",
+        "type": "link out",
+        "z": "399b0c9fe6882016",
+        "name": "Device Metadata",
+        "mode": "link",
+        "links": [
+            "central_metadata_input"
+        ],
+        "x": 495,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "efafe221a2e974b9",
+        "type": "inject",
+        "z": "399b0c9fe6882016",
+        "name": "On Startup",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 130,
+        "y": 60,
+        "wires": [
+            [
+                "6f07bc60169c6758"
+            ]
+        ]
+    },
+    {
+        "id": "6f07bc60169c6758",
+        "type": "template",
+        "z": "399b0c9fe6882016",
+        "name": "Spa Light Metadata",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "plain",
+        "template": "{\n  \"spa_light\": {\n    \"unique_id\":\"spa_light\",\n    \"object_id\":\"spa_light\",\n    \"platform\": \"light\",\n    \"payload_off\": 0,\n    \"payload_on\": 1,\n    \"command_topic\": \"swimctl/lights/spa/command\",\n    \"state_topic\": \"swimctl/lights/spa/state\"\n  }\n}",
+        "output": "json",
+        "x": 350,
+        "y": 60,
+        "wires": [
+            [
+                "aa83f5464328da17"
+            ]
+        ]
+    },
+    {
+        "id": "206f4aff1ccea06b",
+        "type": "link in",
+        "z": "399b0c9fe6882016",
+        "name": "Home Assistant Startup",
+        "links": [
+            "f217ef5ba3dfbcd4"
+        ],
+        "x": 185,
+        "y": 120,
+        "wires": [
+            [
+                "6f07bc60169c6758"
+            ]
+        ]
+    },
+    {
+        "id": "bbc6d8074b7fa30d",
+        "type": "8relindrd",
+        "z": "399b0c9fe6882016",
+        "name": "Spa Light",
+        "stack": "0",
+        "relay": "3",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 800,
+        "y": 280,
+        "wires": [
+            [
+                "29474f994b827fc4"
+            ]
+        ]
+    },
+    {
+        "id": "29474f994b827fc4",
+        "type": "mqtt out",
+        "z": "399b0c9fe6882016",
+        "name": "",
+        "topic": "swimctl/lights/spa/state",
+        "qos": "1",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3fbc57f2c63e2a25",
+        "x": 1040,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "1ccc0bcead435922",
+        "type": "inject",
+        "z": "399b0c9fe6882016",
+        "name": "Set state to On",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "str",
+        "x": 780,
+        "y": 360,
+        "wires": [
+            [
+                "29474f994b827fc4"
+            ]
+        ]
+    },
+    {
+        "id": "c10e4b06ffa22c74",
+        "type": "inject",
+        "z": "399b0c9fe6882016",
+        "name": "Set state to Off",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "str",
+        "x": 780,
+        "y": 420,
+        "wires": [
+            [
+                "29474f994b827fc4"
+            ]
+        ]
+    },
+    {
+        "id": "4904d3adca9a9b66",
+        "type": "delay",
+        "z": "399b0c9fe6882016",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "500",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 610,
+        "y": 280,
+        "wires": [
+            [
+                "bbc6d8074b7fa30d"
+            ]
+        ]
+    },
+    {
+        "id": "51b773f26cbc74eb",
+        "type": "mqtt in",
+        "z": "399b0c9fe6882016",
+        "name": "",
+        "topic": "swimctl/lights/pool/command",
+        "qos": "1",
+        "datatype": "auto-detect",
+        "broker": "3fbc57f2c63e2a25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 700,
+        "wires": [
+            [
+                "0fc2784fd5a4b275"
+            ]
+        ]
+    },
+    {
+        "id": "0bccf570f1768cb1",
+        "type": "debug",
+        "z": "399b0c9fe6882016",
+        "name": "Pool Light Events",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "ea0afc42972257a0",
+        "type": "8relindrd",
+        "z": "399b0c9fe6882016",
+        "name": "Pool Light",
+        "stack": "0",
+        "relay": "4",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 800,
+        "y": 780,
+        "wires": [
+            [
+                "81d8d0b352bf9fe2"
+            ]
+        ]
+    },
+    {
+        "id": "81d8d0b352bf9fe2",
+        "type": "mqtt out",
+        "z": "399b0c9fe6882016",
+        "name": "",
+        "topic": "swimctl/lights/pool/state",
+        "qos": "1",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3fbc57f2c63e2a25",
+        "x": 1050,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "e107fa18324ea668",
+        "type": "inject",
+        "z": "399b0c9fe6882016",
+        "name": "Set state to On",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "str",
+        "x": 780,
+        "y": 860,
+        "wires": [
+            [
+                "81d8d0b352bf9fe2"
+            ]
+        ]
+    },
+    {
+        "id": "f1e354dca1e7bde5",
+        "type": "inject",
+        "z": "399b0c9fe6882016",
+        "name": "Set state to Off",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "str",
+        "x": 780,
+        "y": 920,
+        "wires": [
+            [
+                "81d8d0b352bf9fe2"
+            ]
+        ]
+    },
+    {
+        "id": "4eccc78a2dafca10",
+        "type": "delay",
+        "z": "399b0c9fe6882016",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "500",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 610,
+        "y": 780,
+        "wires": [
+            [
+                "ea0afc42972257a0"
+            ]
+        ]
+    },
+    {
+        "id": "ecf9ce2c588f0c8f",
+        "type": "link out",
+        "z": "399b0c9fe6882016",
+        "name": "Device Metadata",
+        "mode": "link",
+        "links": [
+            "central_metadata_input"
+        ],
+        "x": 495,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "ea98c548f5253ff0",
+        "type": "inject",
+        "z": "399b0c9fe6882016",
+        "name": "On Startup",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 130,
+        "y": 560,
+        "wires": [
+            [
+                "0c4fee4dae72df42"
+            ]
+        ]
+    },
+    {
+        "id": "0c4fee4dae72df42",
+        "type": "template",
+        "z": "399b0c9fe6882016",
+        "name": "Pool Light Metadata",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "plain",
+        "template": "{\n  \"pool_light\": {\n    \"unique_id\":\"pool_light\",\n    \"object_id\":\"pool_light\",\n    \"platform\": \"light\",\n    \"payload_off\": 0,\n    \"payload_on\": 1,\n    \"command_topic\": \"swimctl/lights/spa/command\",\n    \"state_topic\": \"swimctl/lights/spa/state\"\n  }\n}",
+        "output": "json",
+        "x": 360,
+        "y": 560,
+        "wires": [
+            [
+                "ecf9ce2c588f0c8f"
+            ]
+        ]
+    },
+    {
+        "id": "660c1d21eeed30fd",
+        "type": "link in",
+        "z": "399b0c9fe6882016",
+        "name": "Home Assistant Startup",
+        "links": [
+            "f217ef5ba3dfbcd4"
+        ],
+        "x": 185,
+        "y": 620,
+        "wires": [
+            [
+                "0c4fee4dae72df42"
+            ]
         ]
     }
 ]
