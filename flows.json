@@ -31,6 +31,14 @@
         "env": []
     },
     {
+        "id": "3952d31aa61ac126",
+        "type": "tab",
+        "label": "Main Pump",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "e84e9cb01a5483cb",
         "type": "subflow",
         "name": "System Health Check",
@@ -54,6 +62,39 @@
                 "wires": [
                     {
                         "id": "35650b9e5321030d",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "e8506e6cda136611",
+        "type": "subflow",
+        "name": "Pump Speed Control",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 500,
+                "wires": [
+                    {
+                        "id": "5ad1f2718344fa7d"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 2520,
+                "y": 520,
+                "wires": [
+                    {
+                        "id": "2ebeb8286b574533",
                         "port": 0
                     }
                 ]
@@ -126,6 +167,939 @@
         "x": 330,
         "y": 80,
         "wires": []
+    },
+    {
+        "id": "21dae7cb6eeaccc6",
+        "type": "comment",
+        "z": "e8506e6cda136611",
+        "name": "Control Details",
+        "info": "For analog control, the pump has five wires. One with signal voltage and four for speeds (1, 2, 3, 4). No relays enabled means off.\n\nRelays will connect power from the hot wire to the appropriate signal wire.\n\nIt is important to avoid sending power to more than one signal wire simultaneously. This flow aims to ensure that doesn't happen.",
+        "x": 1500,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "5ad1f2718344fa7d",
+        "type": "switch",
+        "z": "e8506e6cda136611",
+        "name": "msg.topic",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "run_state",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "preset_speed",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "speed_state",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 200,
+        "y": 500,
+        "wires": [
+            [
+                "0bc21ec5d6ede1d7",
+                "3ec38599cf586d55"
+            ],
+            [
+                "05c27b91106f1f5b"
+            ],
+            [
+                "35cbecb532c11ec3",
+                "cfc3e13bf382c20e"
+            ]
+        ]
+    },
+    {
+        "id": "0bc21ec5d6ede1d7",
+        "type": "debug",
+        "z": "e8506e6cda136611",
+        "name": "run_state message",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 410,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "35cbecb532c11ec3",
+        "type": "debug",
+        "z": "e8506e6cda136611",
+        "name": "speed_state message",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 420,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "cfc3e13bf382c20e",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "Store selected speed",
+        "rules": [
+            {
+                "t": "set",
+                "p": "speed",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 520,
+        "y": 560,
+        "wires": [
+            [
+                "05c27b91106f1f5b"
+            ]
+        ]
+    },
+    {
+        "id": "982fb8c511439038",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "Set Speed to 0",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 380,
+        "wires": [
+            [
+                "05c27b91106f1f5b"
+            ]
+        ]
+    },
+    {
+        "id": "6f55349b64fd8fab",
+        "type": "inject",
+        "z": "e8506e6cda136611",
+        "name": "Inject Default Speed (1)",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "speed_state",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 430,
+        "y": 160,
+        "wires": [
+            [
+                "794fb32501548b0c"
+            ]
+        ]
+    },
+    {
+        "id": "794fb32501548b0c",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "speed",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 660,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3ec38599cf586d55",
+        "type": "switch",
+        "z": "e8506e6cda136611",
+        "name": "run_state",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "OFF",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "ON",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 400,
+        "y": 420,
+        "wires": [
+            [
+                "982fb8c511439038"
+            ],
+            [
+                "87d55752d6c11981"
+            ]
+        ]
+    },
+    {
+        "id": "87d55752d6c11981",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "Set Speed to Previous Value",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "$flowContext(\"speed\")",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 640,
+        "y": 440,
+        "wires": [
+            [
+                "05c27b91106f1f5b"
+            ]
+        ]
+    },
+    {
+        "id": "038b8a66cba663e0",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "Off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Speed 4",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1470,
+        "y": 840,
+        "wires": [
+            [
+                "c1c9993e58280941"
+            ]
+        ]
+    },
+    {
+        "id": "baef3b5504e4fa20",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "On",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Speed 4",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1470,
+        "y": 800,
+        "wires": [
+            [
+                "c1c9993e58280941"
+            ]
+        ]
+    },
+    {
+        "id": "1233bcfa2be3fb01",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "Off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Speed 1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1470,
+        "y": 240,
+        "wires": [
+            [
+                "c8d5a8d6f98f042f"
+            ]
+        ]
+    },
+    {
+        "id": "3bfc82b9fe5d457d",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "On",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Speed 1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1470,
+        "y": 200,
+        "wires": [
+            [
+                "c8d5a8d6f98f042f"
+            ]
+        ]
+    },
+    {
+        "id": "f61f414764651f3d",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "Off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Speed 2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1470,
+        "y": 440,
+        "wires": [
+            [
+                "29e8379663f848a9"
+            ]
+        ]
+    },
+    {
+        "id": "2789659a5892f0a8",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "On",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Speed 2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1470,
+        "y": 400,
+        "wires": [
+            [
+                "29e8379663f848a9"
+            ]
+        ]
+    },
+    {
+        "id": "27068ba623c866cd",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "Off",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Speed 3",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1470,
+        "y": 640,
+        "wires": [
+            [
+                "94f1b9722f8d7bd7"
+            ]
+        ]
+    },
+    {
+        "id": "4845c6590463b098",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "On",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Speed 3",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1470,
+        "y": 600,
+        "wires": [
+            [
+                "94f1b9722f8d7bd7"
+            ]
+        ]
+    },
+    {
+        "id": "05c27b91106f1f5b",
+        "type": "switch",
+        "z": "e8506e6cda136611",
+        "name": "Desired Speed",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "2",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "3",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "4",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 5,
+        "x": 1060,
+        "y": 500,
+        "wires": [
+            [
+                "1233bcfa2be3fb01",
+                "f61f414764651f3d",
+                "27068ba623c866cd",
+                "038b8a66cba663e0"
+            ],
+            [
+                "e4483ac2de21fd5f",
+                "f61f414764651f3d",
+                "27068ba623c866cd",
+                "038b8a66cba663e0"
+            ],
+            [
+                "f6d208399eae5d9e",
+                "1233bcfa2be3fb01",
+                "27068ba623c866cd",
+                "038b8a66cba663e0"
+            ],
+            [
+                "4dd56df857883a76",
+                "f61f414764651f3d",
+                "1233bcfa2be3fb01",
+                "038b8a66cba663e0"
+            ],
+            [
+                "3f22a50324ddd9b9",
+                "27068ba623c866cd",
+                "f61f414764651f3d",
+                "1233bcfa2be3fb01"
+            ]
+        ]
+    },
+    {
+        "id": "3f22a50324ddd9b9",
+        "type": "delay",
+        "z": "e8506e6cda136611",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "250",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1490,
+        "y": 740,
+        "wires": [
+            [
+                "baef3b5504e4fa20"
+            ]
+        ]
+    },
+    {
+        "id": "e4483ac2de21fd5f",
+        "type": "delay",
+        "z": "e8506e6cda136611",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "250",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1490,
+        "y": 140,
+        "wires": [
+            [
+                "3bfc82b9fe5d457d"
+            ]
+        ]
+    },
+    {
+        "id": "f6d208399eae5d9e",
+        "type": "delay",
+        "z": "e8506e6cda136611",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "250",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1490,
+        "y": 340,
+        "wires": [
+            [
+                "2789659a5892f0a8"
+            ]
+        ]
+    },
+    {
+        "id": "4dd56df857883a76",
+        "type": "delay",
+        "z": "e8506e6cda136611",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "250",
+        "timeoutUnits": "milliseconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 1490,
+        "y": 540,
+        "wires": [
+            [
+                "4845c6590463b098"
+            ]
+        ]
+    },
+    {
+        "id": "c8d5a8d6f98f042f",
+        "type": "8relind",
+        "z": "e8506e6cda136611",
+        "name": "0:5",
+        "stack": "0",
+        "relay": "5",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 1670,
+        "y": 220,
+        "wires": [
+            [
+                "1a835d0e106d9b12"
+            ]
+        ]
+    },
+    {
+        "id": "29e8379663f848a9",
+        "type": "8relind",
+        "z": "e8506e6cda136611",
+        "name": "0:6",
+        "stack": "0",
+        "relay": "6",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 1670,
+        "y": 420,
+        "wires": [
+            [
+                "f52a172bbc4c56c6"
+            ]
+        ]
+    },
+    {
+        "id": "94f1b9722f8d7bd7",
+        "type": "8relind",
+        "z": "e8506e6cda136611",
+        "name": "0:7",
+        "stack": "0",
+        "relay": "7",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 1670,
+        "y": 620,
+        "wires": [
+            [
+                "9347a366d60858ac"
+            ]
+        ]
+    },
+    {
+        "id": "c1c9993e58280941",
+        "type": "8relind",
+        "z": "e8506e6cda136611",
+        "name": "0:8",
+        "stack": "0",
+        "relay": "8",
+        "payload": "payload",
+        "payloadType": "msg",
+        "x": 1670,
+        "y": 820,
+        "wires": [
+            [
+                "fcb4886b30e06e77"
+            ]
+        ]
+    },
+    {
+        "id": "c456c4bcee791f7a",
+        "type": "join",
+        "z": "e8506e6cda136611",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "0.25",
+        "count": "4",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 2110,
+        "y": 520,
+        "wires": [
+            [
+                "2ebeb8286b574533"
+            ]
+        ]
+    },
+    {
+        "id": "1a835d0e106d9b12",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "speed 1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1830,
+        "y": 220,
+        "wires": [
+            [
+                "c456c4bcee791f7a"
+            ]
+        ]
+    },
+    {
+        "id": "f52a172bbc4c56c6",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "speed 2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1830,
+        "y": 420,
+        "wires": [
+            [
+                "c456c4bcee791f7a"
+            ]
+        ]
+    },
+    {
+        "id": "9347a366d60858ac",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "speed 3",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1830,
+        "y": 620,
+        "wires": [
+            [
+                "c456c4bcee791f7a"
+            ]
+        ]
+    },
+    {
+        "id": "fcb4886b30e06e77",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "speed 4",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1830,
+        "y": 820,
+        "wires": [
+            [
+                "c456c4bcee791f7a"
+            ]
+        ]
+    },
+    {
+        "id": "2ebeb8286b574533",
+        "type": "change",
+        "z": "e8506e6cda136611",
+        "name": "Extract current speed as an int",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.current_speed",
+                "pt": "msg",
+                "to": "payload.$sift(function($v, $k) { $v = 1}) ~> $keys ~> $substring(-1) ~> $number",
+                "tot": "jsonata"
+            },
+            {
+                "t": "delete",
+                "p": "topic",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2330,
+        "y": 520,
+        "wires": [
+            []
+        ]
     },
     {
         "id": "be8c5fdd.8e",
@@ -990,7 +1964,8 @@
             "8477439e60fc5c07",
             "2197c0ec581e0457",
             "aa83f5464328da17",
-            "ecf9ce2c588f0c8f"
+            "ecf9ce2c588f0c8f",
+            "81925d77aaee4a08"
         ],
         "x": 115,
         "y": 420,
@@ -1181,7 +2156,8 @@
             "d81339ab9952fb29",
             "75323951ea67af27",
             "206f4aff1ccea06b",
-            "660c1d21eeed30fd"
+            "660c1d21eeed30fd",
+            "4601c678b5cb434e"
         ],
         "x": 525,
         "y": 160,
@@ -1201,9 +2177,9 @@
         "id": "dd0e20bb968a42e6",
         "type": "comment",
         "z": "03928a46de37cade",
-        "name": "Handle Discovery",
+        "name": "Publish Discovery Messages",
         "info": "",
-        "x": 180,
+        "x": 220,
         "y": 320,
         "wires": []
     },
@@ -1807,6 +2783,1002 @@
             [
                 "0c4fee4dae72df42"
             ]
+        ]
+    },
+    {
+        "id": "05e3c514fe3d76b3",
+        "type": "inject",
+        "z": "3952d31aa61ac126",
+        "name": "Speed 1",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 300,
+        "y": 1320,
+        "wires": [
+            [
+                "ab39f05b91ae3904"
+            ]
+        ]
+    },
+    {
+        "id": "6bd3dac9c7cf465f",
+        "type": "inject",
+        "z": "3952d31aa61ac126",
+        "name": "Speed 2",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2",
+        "payloadType": "num",
+        "x": 300,
+        "y": 1380,
+        "wires": [
+            [
+                "ab39f05b91ae3904"
+            ]
+        ]
+    },
+    {
+        "id": "866411d8627828c0",
+        "type": "inject",
+        "z": "3952d31aa61ac126",
+        "name": "Speed 3",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "3",
+        "payloadType": "num",
+        "x": 300,
+        "y": 1440,
+        "wires": [
+            [
+                "ab39f05b91ae3904"
+            ]
+        ]
+    },
+    {
+        "id": "f1a971f1a27e48cd",
+        "type": "inject",
+        "z": "3952d31aa61ac126",
+        "name": "Turn Off",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "OFF",
+        "payloadType": "str",
+        "x": 300,
+        "y": 1120,
+        "wires": [
+            [
+                "b1be7023284d4978"
+            ]
+        ]
+    },
+    {
+        "id": "3e6c6e0d0b3618aa",
+        "type": "inject",
+        "z": "3952d31aa61ac126",
+        "name": "Turn On",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "ON",
+        "payloadType": "str",
+        "x": 300,
+        "y": 1060,
+        "wires": [
+            [
+                "b1be7023284d4978"
+            ]
+        ]
+    },
+    {
+        "id": "6567fa4913431bd6",
+        "type": "comment",
+        "z": "3952d31aa61ac126",
+        "name": "Run State",
+        "info": "",
+        "x": 240,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "09ea27cd4fd29feb",
+        "type": "comment",
+        "z": "3952d31aa61ac126",
+        "name": "Speed",
+        "info": "",
+        "x": 230,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "b1be7023284d4978",
+        "type": "change",
+        "z": "3952d31aa61ac126",
+        "name": "Set Topic = `run_state`; Store value",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "run_state",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "run_state",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 780,
+        "y": 1000,
+        "wires": [
+            [
+                "7b02b7845f623908"
+            ]
+        ]
+    },
+    {
+        "id": "ab39f05b91ae3904",
+        "type": "change",
+        "z": "3952d31aa61ac126",
+        "name": "Set Topic = speed_state",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "speed_state",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 750,
+        "y": 1260,
+        "wires": [
+            [
+                "7b02b7845f623908",
+                "928a0ad2ac7d761b"
+            ]
+        ]
+    },
+    {
+        "id": "839c8eab3fbac022",
+        "type": "comment",
+        "z": "3952d31aa61ac126",
+        "name": "TODO",
+        "info": " - Handle Spa/Pool transition messages\n   Handle Presets",
+        "x": 230,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "28bd7589427a2cd7",
+        "type": "mqtt in",
+        "z": "3952d31aa61ac126",
+        "name": "Run State Control",
+        "topic": "swimctl/pumps/main/run/command",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "3fbc57f2c63e2a25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 1000,
+        "wires": [
+            [
+                "b1be7023284d4978",
+                "8455d86649cb969c"
+            ]
+        ]
+    },
+    {
+        "id": "dfb4509f8b475972",
+        "type": "mqtt in",
+        "z": "3952d31aa61ac126",
+        "name": "Speed Control",
+        "topic": "swimctl/pumps/main/speed/command",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "3fbc57f2c63e2a25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 290,
+        "y": 1260,
+        "wires": [
+            [
+                "ab39f05b91ae3904",
+                "f95d66bf0fc0a3d9"
+            ]
+        ]
+    },
+    {
+        "id": "81925d77aaee4a08",
+        "type": "link out",
+        "z": "3952d31aa61ac126",
+        "name": "Device Metadata",
+        "mode": "link",
+        "links": [
+            "central_metadata_input"
+        ],
+        "x": 635,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "0ae7387da555b2c0",
+        "type": "inject",
+        "z": "3952d31aa61ac126",
+        "name": "On Startup",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 270,
+        "y": 400,
+        "wires": [
+            [
+                "4354c8b25d483926"
+            ]
+        ]
+    },
+    {
+        "id": "4354c8b25d483926",
+        "type": "template",
+        "z": "3952d31aa61ac126",
+        "name": "Main Pump Metadata",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "plain",
+        "template": "{\n  \"main_pump\": {\n    \"unique_id\":\"main_pump\",\n    \"object_id\":\"main_pump\",\n    \"icon\": \"mdi:pump\",\n    \"platform\": \"fan\",\n    \"payload_off\": \"OFF\",\n    \"payload_on\": \"ON\",\n    \"command_topic\": \"swimctl/pumps/main/run/command\",\n    \"state_topic\": \"swimctl/pumps/main/run/state\",\n    \"speed_range_min\": 1,\n    \"speed_range_max\": 3,\n    \"percentage_command_topic\": \"swimctl/pumps/main/speed/command\",\n    \"percentage_state_topic\": \"swimctl/pumps/main/speed/state\",\n    \"preset_modes\": [\"Pool\", \"Spa\", \"Quick Clean\"],\n    \"preset_mode_command_topic\": \"swimctl/pumps/main/mode/command\",\n    \"preset_mode_state_topic\": \"swimctl/pumps/main/mode/state\"\n  }\n}",
+        "output": "json",
+        "x": 500,
+        "y": 400,
+        "wires": [
+            [
+                "81925d77aaee4a08"
+            ]
+        ]
+    },
+    {
+        "id": "4601c678b5cb434e",
+        "type": "link in",
+        "z": "3952d31aa61ac126",
+        "name": "Home Assistant Startup",
+        "links": [
+            "f217ef5ba3dfbcd4"
+        ],
+        "x": 325,
+        "y": 460,
+        "wires": [
+            [
+                "4354c8b25d483926"
+            ]
+        ]
+    },
+    {
+        "id": "8740c417d4038156",
+        "type": "comment",
+        "z": "3952d31aa61ac126",
+        "name": "MQTT Discovery",
+        "info": "",
+        "x": 260,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "8455d86649cb969c",
+        "type": "debug",
+        "z": "3952d31aa61ac126",
+        "name": "Run Control Input",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "f95d66bf0fc0a3d9",
+        "type": "debug",
+        "z": "3952d31aa61ac126",
+        "name": "Speed Control Input",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "26bfca0d79a4951f",
+        "type": "comment",
+        "z": "3952d31aa61ac126",
+        "name": "Mode",
+        "info": "",
+        "x": 230,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "f77f6c0adfdc8c5d",
+        "type": "mqtt in",
+        "z": "3952d31aa61ac126",
+        "name": "Mode Control",
+        "topic": "swimctl/pumps/main/mode/command",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "3fbc57f2c63e2a25",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 290,
+        "y": 620,
+        "wires": [
+            [
+                "54a6b1302ce63e4b",
+                "ed0ba8d11312451c"
+            ]
+        ]
+    },
+    {
+        "id": "3a02fe2b1ab89b67",
+        "type": "inject",
+        "z": "3952d31aa61ac126",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Pool",
+        "payloadType": "str",
+        "x": 310,
+        "y": 680,
+        "wires": [
+            [
+                "ed0ba8d11312451c"
+            ]
+        ]
+    },
+    {
+        "id": "22cbba7a99e1161a",
+        "type": "inject",
+        "z": "3952d31aa61ac126",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Spa",
+        "payloadType": "str",
+        "x": 310,
+        "y": 740,
+        "wires": [
+            [
+                "ed0ba8d11312451c"
+            ]
+        ]
+    },
+    {
+        "id": "96b14dad0e9c74cb",
+        "type": "inject",
+        "z": "3952d31aa61ac126",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Quick Clean",
+        "payloadType": "str",
+        "x": 290,
+        "y": 800,
+        "wires": [
+            [
+                "ed0ba8d11312451c"
+            ]
+        ]
+    },
+    {
+        "id": "54a6b1302ce63e4b",
+        "type": "debug",
+        "z": "3952d31aa61ac126",
+        "name": "State Control Input",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 550,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "ed0ba8d11312451c",
+        "type": "change",
+        "z": "3952d31aa61ac126",
+        "name": "Set Topic and Event ID",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "mode",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "event_id",
+                "pt": "msg",
+                "to": "$millis()",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 560,
+        "y": 620,
+        "wires": [
+            [
+                "de8c36c7c9960f50",
+                "ecbae120c055f93f"
+            ]
+        ]
+    },
+    {
+        "id": "5c9d8fbdbc56888f",
+        "type": "debug",
+        "z": "3952d31aa61ac126",
+        "name": "Mode State",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1870,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "46d426d3c387a06e",
+        "type": "mqtt out",
+        "z": "3952d31aa61ac126",
+        "name": "",
+        "topic": "swimctl/pumps/main/mode/state",
+        "qos": "1",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3fbc57f2c63e2a25",
+        "x": 1930,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "de8c36c7c9960f50",
+        "type": "switch",
+        "z": "3952d31aa61ac126",
+        "name": "mode",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Pool",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Spa",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Quick Clean",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 750,
+        "y": 620,
+        "wires": [
+            [
+                "5c9d8fbdbc56888f",
+                "46d426d3c387a06e",
+                "878bd0c191d7254f"
+            ],
+            [
+                "d9bff5a984c3a001",
+                "46d426d3c387a06e",
+                "5c9d8fbdbc56888f"
+            ],
+            [
+                "6d5927f93ffc8f48",
+                "46d426d3c387a06e",
+                "5c9d8fbdbc56888f"
+            ]
+        ]
+    },
+    {
+        "id": "cafbe35e920170ff",
+        "type": "mqtt out",
+        "z": "3952d31aa61ac126",
+        "name": "",
+        "topic": "swimctl/pumps/main/speed/state",
+        "qos": "1",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3fbc57f2c63e2a25",
+        "x": 2290,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "b7bb82d6dbab3b28",
+        "type": "mqtt out",
+        "z": "3952d31aa61ac126",
+        "name": "",
+        "topic": "swimctl/pumps/main/run/state",
+        "qos": "1",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "3fbc57f2c63e2a25",
+        "x": 2290,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "d9bff5a984c3a001",
+        "type": "change",
+        "z": "3952d31aa61ac126",
+        "name": "Preset Speed = 3",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "3",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "preset_speed",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1010,
+        "y": 720,
+        "wires": [
+            [
+                "7b02b7845f623908"
+            ]
+        ]
+    },
+    {
+        "id": "6d5927f93ffc8f48",
+        "type": "change",
+        "z": "3952d31aa61ac126",
+        "name": "Preset Speed = 4",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "4",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "preset_speed",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1010,
+        "y": 780,
+        "wires": [
+            [
+                "7b02b7845f623908",
+                "be1735cedec0dbed"
+            ]
+        ]
+    },
+    {
+        "id": "7b02b7845f623908",
+        "type": "subflow:e8506e6cda136611",
+        "z": "3952d31aa61ac126",
+        "name": "",
+        "x": 1380,
+        "y": 1000,
+        "wires": [
+            [
+                "d48a22a424322fc2",
+                "ecc2528b932b41fd",
+                "dd6326e133eb2c45"
+            ]
+        ]
+    },
+    {
+        "id": "878bd0c191d7254f",
+        "type": "change",
+        "z": "3952d31aa61ac126",
+        "name": "Reset to Previous State",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "run_state",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "run_state",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1010,
+        "y": 660,
+        "wires": [
+            [
+                "7b02b7845f623908"
+            ]
+        ]
+    },
+    {
+        "id": "be1735cedec0dbed",
+        "type": "delay",
+        "z": "3952d31aa61ac126",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "15",
+        "timeoutUnits": "minutes",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 570,
+        "y": 780,
+        "wires": [
+            [
+                "2663755df000bc95"
+            ]
+        ]
+    },
+    {
+        "id": "2663755df000bc95",
+        "type": "change",
+        "z": "3952d31aa61ac126",
+        "name": "Revert to Pool Mode",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Pool",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 580,
+        "y": 700,
+        "wires": [
+            [
+                "ed0ba8d11312451c"
+            ]
+        ]
+    },
+    {
+        "id": "d48a22a424322fc2",
+        "type": "debug",
+        "z": "3952d31aa61ac126",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1640,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "ecbae120c055f93f",
+        "type": "debug",
+        "z": "3952d31aa61ac126",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "ecc2528b932b41fd",
+        "type": "change",
+        "z": "3952d31aa61ac126",
+        "name": "Evaluate run_state",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "$sum(payload.*) > 0 ? \"ON\" : \"OFF\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1670,
+        "y": 1060,
+        "wires": [
+            [
+                "b7bb82d6dbab3b28"
+            ]
+        ]
+    },
+    {
+        "id": "dd6326e133eb2c45",
+        "type": "change",
+        "z": "3952d31aa61ac126",
+        "name": "Extract current speed",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.current_speed",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1680,
+        "y": 1000,
+        "wires": [
+            [
+                "26b046f915196815"
+            ]
+        ]
+    },
+    {
+        "id": "1b61085ebfb04989",
+        "type": "debug",
+        "z": "3952d31aa61ac126",
+        "name": "debug 4",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2220,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "26b046f915196815",
+        "type": "switch",
+        "z": "3952d31aa61ac126",
+        "name": "Filter for `current_speed` as number",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "istype",
+                "v": "number",
+                "vt": "number"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1970,
+        "y": 1000,
+        "wires": [
+            [
+                "cafbe35e920170ff",
+                "1b61085ebfb04989"
+            ]
+        ]
+    },
+    {
+        "id": "928a0ad2ac7d761b",
+        "type": "change",
+        "z": "3952d31aa61ac126",
+        "name": "Store `run_state` == \"ON\"",
+        "rules": [
+            {
+                "t": "set",
+                "p": "run_state",
+                "pt": "flow",
+                "to": "ON",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1050,
+        "y": 1260,
+        "wires": [
+            []
         ]
     }
 ]
