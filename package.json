@@ -2,7 +2,10 @@
     "name": "swimctl-flows",
     "description": "A Node-RED Project",
     "version": "0.0.1",
-    "dependencies": {},
+    "dependencies": {
+        "node-red-contrib-cron-plus": "^2.1.0",
+        "node-red-contrib-sm-8relind": "^1.0.3"
+    },
     "node-red": {
         "settings": {
             "flowFile": "flows.json",
