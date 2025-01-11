@@ -145,6 +145,7 @@
         "protocolVersion": "5",
         "keepalive": "60",
         "cleansession": true,
+        "autoUnsubscribe": true,
         "birthTopic": "swimctl/system/status",
         "birthQos": "2",
         "birthPayload": "starting",
@@ -1568,7 +1569,6 @@
         "name": "Metadata Input",
         "links": [
             "8477439e60fc5c07",
-            "2197c0ec581e0457",
             "aa83f5464328da17",
             "ecf9ce2c588f0c8f",
             "81925d77aaee4a08",
@@ -1579,8 +1579,7 @@
             "5200deef5d5b28c9",
             "1341090827c116ed",
             "cea254f729d34a0c",
-            "3165b7d0ce0ea93e",
-            "631d5762c053ac56"
+            "3165b7d0ce0ea93e"
         ],
         "x": 115,
         "y": 420,
@@ -1769,7 +1768,6 @@
         "mode": "link",
         "links": [
             "d81339ab9952fb29",
-            "75323951ea67af27",
             "206f4aff1ccea06b",
             "660c1d21eeed30fd",
             "4601c678b5cb434e",
@@ -1780,8 +1778,7 @@
             "c877f98f67de0934",
             "84cef76c6b3a453d",
             "10f65557c2e64ce7",
-            "79e522e98af395be",
-            "9b105cbc5960b448"
+            "79e522e98af395be"
         ],
         "x": 525,
         "y": 160,
